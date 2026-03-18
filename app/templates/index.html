@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+
+        <div class="card shadow-soft p-4">
+
+            <h3 class="mb-3 text-center">Acortador de URLs</h3>
+            <p class="text-muted text-center">
+                Convierte enlaces largos en versiones cortas y fáciles de compartir
+            </p>
+
+            {% if error %}
+            <div class="alert alert-danger text-center">
+                {{ error }}
+            </div>
+            {% endif %}
+
+            <form method="POST">
+
+                <div class="mb-3">
+                    <label class="form-label">URL original</label>
+                    <input class="form-control" name="original_url" placeholder="https://ejemplo.com" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Imagen (preview)</label>
+                    <input class="form-control" name="image_url" placeholder="https://imagen.com/img.jpg">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Descripción</label>
+                    <input class="form-control" name="description" placeholder="Descripción del enlace">
+                </div>
+
+                <button class="btn btn-primary w-100">
+                    🔗 Generar enlace corto
+                </button>
+            </form>
+
+            {% if short_url %}
+            <div class="alert alert-success mt-4 text-center">
+                <strong>Tu enlace:</strong><br>
+                <a href="{{ short_url }}" target="_blank">{{ short_url }}</a>
+
+                <div class="mt-2">
+                    <button class="btn btn-sm btn-outline-success" onclick="copiar()">
+                        Copiar enlace
+                    </button>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+<script>
+function copiar() {
+    navigator.clipboard.writeText("{{ short_url }}");
+    alert("Copiado al portapapeles");
+}
+</script>
+
+{% endblock %}

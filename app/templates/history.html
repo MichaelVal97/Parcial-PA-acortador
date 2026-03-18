@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3 class="mb-4">Historial de enlaces</h3>
+
+<div class="card shadow-soft p-3">
+
+<table class="table table-hover align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Original</th>
+            <th>Corto</th>
+            <th>Imagen</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for u in urls %}
+        <tr>
+            <td style="max-width:200px; overflow:hidden;">
+                {{ u.original_url }}
+            </td>
+
+            <td>
+                <a href="/{{ u.short_code }}" target="_blank">
+                    {{ u.short_code }}
+                </a>
+            </td>
+
+            <td>
+                {% if u.image %}
+                <img src="{{ u.image }}" width="80" class="rounded">
+                {% endif %}
+            </td>
+
+            <td>{{ u.description }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</div>
+
+{% endblock %}
