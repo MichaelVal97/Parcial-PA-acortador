@@ -1,0 +1,208 @@
+ACORTADOR DE URLs HÍBRIDO
+Flask + MySQL + MongoDB
+-----------------------
+
+1. DESCRIPCIÓN DEL PROYECTO
+
+Aplicación web para acortar URLs con almacenamiento híbrido:
+
+* MySQL → datos estructurados (URL, código, descripción, fecha)
+* MongoDB → almacenamiento de imágenes (preview)
+
+Incluye:
+
+* Interfaz moderna con Bootstrap 5
+* Validación de duplicados
+* Historial de enlaces
+* Redirección automática
+
+---
+
+2. ESTRUCTURA DEL PROYECTO
+
+url_shortener/
+│
+├── app/
+│   ├── **init**.py
+│   ├── config.py
+│
+│   ├── models/
+│   │   ├── mysql_model.py
+│   │   └── mongo_model.py
+│
+│   ├── services/
+│   │   └── url_service.py
+│
+│   ├── routes/
+│   │   └── url_routes.py
+│
+│   ├── templates/
+│   │   ├── base.html
+│   │   ├── index.html
+│   │   └── history.html
+│
+│   └── static/
+│       └── css/
+│
+├── run.py
+└── requirements.txt
+
+---
+
+3. DEPENDENCIAS
+
+Instalar con:
+
+pip install flask pymysql pymongo
+
+Opcional (entorno virtual recomendado):
+
+python -m venv venv
+venv\Scripts\activate   (Windows)
+pip install flask pymysql pymongo
+
+Archivo requirements.txt:
+
+flask
+pymysql
+pymongo
+
+---
+
+4. CONFIGURACIÓN
+
+Archivo: app/config.py
+
+class Config:
+MYSQL_HOST = "localhost"
+MYSQL_USER = "root"
+MYSQL_PASSWORD = ""
+MYSQL_DB = "url_shortener"
+
+```
+MONGO_URI = "mongodb://localhost:27017/"
+MONGO_DB = "url_images"
+```
+
+---
+
+5. BASE DE DATOS
+
+MySQL:
+
+CREATE DATABASE url_shortener;
+
+USE url_shortener;
+
+CREATE TABLE urls (
+id INT AUTO_INCREMENT PRIMARY KEY,
+original_url TEXT NOT NULL UNIQUE,
+short_code VARCHAR(10) UNIQUE,
+description TEXT,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+MongoDB:
+
+Base de datos: url_images
+Colección: images
+
+Ejemplo documento:
+
+{
+"short_code": "AbC123",
+"image_url": "https://imagen.com/img.jpg"
+}
+
+---
+
+6. EJECUCIÓN DEL PROYECTO
+
+Paso 1: Iniciar MySQL
+
+Paso 2: Iniciar MongoDB
+
+mongod
+
+Paso 3: Ubicarse en el proyecto
+
+cd ruta/del/proyecto
+
+Paso 4: Ejecutar aplicación
+
+python run.py
+
+---
+
+7. ACCESO
+
+Abrir navegador en:
+
+http://127.0.0.1:5000
+
+---
+
+8. FUNCIONALIDADES
+
+* Acortar URLs
+* Validar duplicados
+* Guardar datos en MySQL
+* Guardar imágenes en MongoDB
+* Redirección automática
+* Historial completo
+* Interfaz moderna (Bootstrap 5)
+
+---
+
+9. VALIDACIONES IMPLEMENTADAS
+
+* No permite URLs repetidas
+* No permite duplicados por descripción (opcional)
+* Genera código único
+* Manejo de errores con alertas visuales
+
+---
+
+10. POSIBLES ERRORES
+
+Error: run.py no encontrado
+→ Verificar ubicación del archivo
+
+Error: MySQL conexión
+→ Revisar credenciales en config.py
+
+Error: MongoDB
+→ Ejecutar "mongod"
+
+Puerto ocupado
+→ Cambiar puerto en run.py
+
+---
+
+11. SCRIPT PRINCIPAL
+
+run.py
+
+from app import create_app
+
+app = create_app()
+
+if **name** == "**main**":
+app.run(debug=True)
+
+---
+
+12. NOTAS FINALES
+
+* Proyecto basado en arquitectura por capas
+* No utiliza frameworks adicionales
+* Escalable para futuras mejoras:
+
+  * API REST
+  * Estadísticas
+  * Dashboard
+  * Seguridad
+
+---
+
+FIN DEL DOCUMENTO
